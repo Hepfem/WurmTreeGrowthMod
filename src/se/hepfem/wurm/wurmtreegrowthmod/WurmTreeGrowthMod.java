@@ -56,13 +56,16 @@ public class WurmTreeGrowthMod implements WurmServerMod, Configurable, PreInitab
             CodeAttribute ca = mi.getCodeAttribute();
 
             //We probably don't want to deal with negative values...
-            double agingMultiplier = Math.abs(treeAgingChanceMultiplier);
+            double agingMultiplier = treeAgingChanceMultiplier;
 
             int deathOdds = treeDeathOdds;
 
             //Other values may produce unexpected results and overflows
             if (deathOdds < 0 || deathOdds > 127) {
-                throw new NumberFormatException("deathOdds must be between 0-127 but was " + deathOdds);
+                throw new NumberFormatException("treeDeathOdds must be 0-127 but was " + deathOdds);
+            }
+            if (agingMultiplier < 0) {
+                throw new NumberFormatException("treeAgingChanceMultiplier must be positive but was " + agingMultiplier);
             }
 
             //Invert aging multiplier (lower code value of chance = higher actual chance)
